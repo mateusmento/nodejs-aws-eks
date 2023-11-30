@@ -1,0 +1,13 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin 429249706241.dkr.ecr.sa-east-1.amazonaws.com
+  build:
+    commands:
+      - docker build -t nodejs-aws-eks .
+      - docker tag nodejs-aws-eks:latest 429249706241.dkr.ecr.sa-east-1.amazonaws.com/nodejs-aws-eks:latest
+  post_build:
+    commands:
+      - docker push 429249706241.dkr.ecr.sa-east-1.amazonaws.com/nodejs-aws-eks:latest
